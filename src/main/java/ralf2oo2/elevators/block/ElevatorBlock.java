@@ -87,4 +87,9 @@ public class ElevatorBlock extends TemplateBlock {
         }
         return false;
     }
+
+    @Override
+    protected int getDroppedItemMeta(int blockMeta) {
+        return blockMeta;
+    }
 }

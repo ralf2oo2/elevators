@@ -13,6 +13,7 @@ import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
+import ralf2oo2.elevators.ElevatorsConfig;
 import ralf2oo2.elevators.block.ElevatorBlock;
 import ralf2oo2.elevators.events.init.BlockRegistry;
 import ralf2oo2.elevators.state.property.Color;
@@ -45,13 +46,13 @@ public abstract class PlayerEntityMixin extends Entity {
                 if(playerEntity.isSneaking()){
                     if(!movedPlayer){
                         movedPlayer = true;
-                        elevatorPos = findElevatorBelow(playerX, playerY, playerZ, 20, null);
+                        elevatorPos = findElevatorBelow(playerX, playerY, playerZ, ElevatorsConfig.config.elevatorDistanceLimit, null);
                     }
                 }
                 else if(this.hasJumped){
                     if(!movedPlayer){
                         movedPlayer = true;
-                        elevatorPos = findElevatorAbove(playerX, playerY, playerZ, 20, null);
+                        elevatorPos = findElevatorAbove(playerX, playerY, playerZ, ElevatorsConfig.config.elevatorDistanceLimit, null);
                     }
                 }
                 else {
@@ -74,20 +75,26 @@ public abstract class PlayerEntityMixin extends Entity {
     public BlockPos findElevatorBelow(int x, int y, int z, int searchLimit, @Nullable Color elevatorColor){
         BlockPos elevatorPos = null;
         for(int i = y - 2; i > y - 2 - searchLimit; i--){
+            System.out.println(i - (y - 2));
             if(i < world.getBottomY()){
                 break;
             }
             if(Block.BLOCKS[world.getBlockId(x, i, z)] instanceof ElevatorBlock){
-                if(elevatorColor != null){
-                    BlockState elevatorBlockState = world.getBlockState(x, i, z);
-                    if(elevatorBlockState.getBlock() instanceof ElevatorBlock elevatorBlock && elevatorBlock.color == elevatorColor){
+                boolean isSafe = true;
+                if(i + 1 <= world.getTopY() && world.shouldSuffocate(x, i + 1, z)) isSafe = false;;
+                if(i + 2 <= world.getTopY() && world.shouldSuffocate(x, i + 2, z)) isSafe = false;
+                if(isSafe){
+                    if(elevatorColor != null){
+                        BlockState elevatorBlockState = world.getBlockState(x, i, z);
+                        if(elevatorBlockState.getBlock() instanceof ElevatorBlock elevatorBlock && elevatorBlock.color == elevatorColor){
+                            elevatorPos = new BlockPos(x, i, z);
+                            break;
+                        }
+                    }
+                    else {
                         elevatorPos = new BlockPos(x, i, z);
                         break;
                     }
-                }
-                else {
-                    elevatorPos = new BlockPos(x, i, z);
-                    break;
                 }
             }
         }
@@ -97,20 +104,26 @@ public abstract class PlayerEntityMixin extends Entity {
     public BlockPos findElevatorAbove(int x, int y, int z, int searchLimit, @Nullable Color elevatorColor){
         BlockPos elevatorPos = null;
         for(int i = y; i < y + searchLimit; i++){
+            System.out.println(i - y);
             if(i > world.getTopY()){
                 break;
             }
             if(Block.BLOCKS[world.getBlockId(x, i, z)] instanceof ElevatorBlock){
-                if(elevatorColor != null){
-                    BlockState elevatorBlockState = world.getBlockState(x, i, z);
-                    if(elevatorBlockState.getBlock() instanceof ElevatorBlock elevatorBlock && elevatorBlock.color == elevatorColor){
+                boolean isSafe = true;
+                if(i + 1 <= world.getTopY() && world.shouldSuffocate(x, i + 1, z)) isSafe = false;;
+                if(i + 2 <= world.getTopY() && world.shouldSuffocate(x, i + 2, z)) isSafe = false;
+                if(isSafe){
+                    if(elevatorColor != null){
+                        BlockState elevatorBlockState = world.getBlockState(x, i, z);
+                        if(elevatorBlockState.getBlock() instanceof ElevatorBlock elevatorBlock && elevatorBlock.color == elevatorColor){
+                            elevatorPos = new BlockPos(x, i, z);
+                            break;
+                        }
+                    }
+                    else {
                         elevatorPos = new BlockPos(x, i, z);
                         break;
                     }
-                }
-                else {
-                    elevatorPos = new BlockPos(x, i, z);
-                    break;
                 }
             }
         }

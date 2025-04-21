@@ -28,6 +28,9 @@
       "ralf2oo2.elevators.events.init.TextureRegistry"
     ],
     "stationapi:event_bus_server": [
+    ],
+    "gcapi3": [
+      "ralf2oo2.elevators.ElevatorsConfig"
     ]
   },
   "mixins": [
