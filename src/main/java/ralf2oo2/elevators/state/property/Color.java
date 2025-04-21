@@ -3,22 +3,22 @@ package ralf2oo2.elevators.state.property;
 import net.modificationstation.stationapi.api.util.StringIdentifiable;
 
 public enum Color implements StringIdentifiable {
-    WHITE,
-    ORANGE,
-    MAGENTA,
-    LIGHT_BLUE,
-    YELLOW,
-    LIME,
-    PINK,
-    GRAY,
-    LIGHT_GRAY,
-    CYAN,
-    PURPLE,
-    BLUE,
-    BROWN,
-    GREEN,
+    BLACK,
     RED,
-    BLACK;
+    GREEN,
+    BROWN,
+    BLUE,
+    PURPLE,
+    CYAN,
+    LIGHT_GRAY,
+    GRAY,
+    PINK,
+    LIME,
+    YELLOW,
+    LIGHT_BLUE,
+    MAGENTA,
+    ORANGE,
+    WHITE;
 
     @Override
     public String asString() {

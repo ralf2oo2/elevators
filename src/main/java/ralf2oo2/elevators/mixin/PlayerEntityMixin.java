@@ -40,7 +40,7 @@ public abstract class PlayerEntityMixin extends Entity {
             int playerY = (int)Math.floor(y - PLAYER_HEIGHT);
             int playerZ = (int)Math.floor(z);
             int belowId = world.getBlockId(playerX, playerY - 1, playerZ);
-            if(belowId == BlockRegistry.elevatorBlock.id){
+            if(Block.BLOCKS[belowId] instanceof ElevatorBlock){
                 BlockPos elevatorPos = null;
                 if(playerEntity.isSneaking()){
                     if(!movedPlayer){
@@ -80,7 +80,7 @@ public abstract class PlayerEntityMixin extends Entity {
             if(Block.BLOCKS[world.getBlockId(x, i, z)] instanceof ElevatorBlock){
                 if(elevatorColor != null){
                     BlockState elevatorBlockState = world.getBlockState(x, i, z);
-                    if(elevatorBlockState.contains(ElevatorBlock.COLOR_ENUM_PROPERTY) && elevatorBlockState.get(ElevatorBlock.COLOR_ENUM_PROPERTY) == elevatorColor){
+                    if(elevatorBlockState.getBlock() instanceof ElevatorBlock elevatorBlock && elevatorBlock.color == elevatorColor){
                         elevatorPos = new BlockPos(x, i, z);
                         break;
                     }
@@ -103,7 +103,7 @@ public abstract class PlayerEntityMixin extends Entity {
             if(Block.BLOCKS[world.getBlockId(x, i, z)] instanceof ElevatorBlock){
                 if(elevatorColor != null){
                     BlockState elevatorBlockState = world.getBlockState(x, i, z);
-                    if(elevatorBlockState.contains(ElevatorBlock.COLOR_ENUM_PROPERTY) && elevatorBlockState.get(ElevatorBlock.COLOR_ENUM_PROPERTY) == elevatorColor){
+                    if(elevatorBlockState.getBlock() instanceof ElevatorBlock elevatorBlock && elevatorBlock.color == elevatorColor){
                         elevatorPos = new BlockPos(x, i, z);
                         break;
                     }

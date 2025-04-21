@@ -1,0 +1,7 @@
+{
+  "variants": {
+    "": {
+      "model": "elevators:block/magenta_elevator"
+    }
+  }
+}

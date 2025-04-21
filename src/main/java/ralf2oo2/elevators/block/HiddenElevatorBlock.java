@@ -8,12 +8,13 @@ import net.minecraft.world.World;
 import net.modificationstation.stationapi.api.util.Identifier;
 import ralf2oo2.elevators.block.entity.HiddenElevatorBlockEntity;
 import ralf2oo2.elevators.events.init.BlockRegistry;
+import ralf2oo2.elevators.state.property.Color;
 
 import java.util.Random;
 
 public class HiddenElevatorBlock extends ElevatorBlock{
-    public HiddenElevatorBlock(Identifier identifier, Material material) {
-        super(identifier, material);
+    public HiddenElevatorBlock(Identifier identifier, Material material, Color color) {
+        super(identifier, material, color);
         BLOCKS_WITH_ENTITY[this.id] = true;
     }
 
@@ -38,7 +39,7 @@ public class HiddenElevatorBlock extends ElevatorBlock{
 
     @Override
     public int getDroppedItemId(int blockMeta, Random random) {
-        return BlockRegistry.elevatorBlock.id;
+        return ElevatorBlock.colors.get(Color.WHITE).id;
     }
 
     @Override
