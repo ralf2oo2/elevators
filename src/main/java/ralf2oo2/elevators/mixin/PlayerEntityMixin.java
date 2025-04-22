@@ -41,19 +41,19 @@ public abstract class PlayerEntityMixin extends Entity {
         if(world == null) return;
         if((key == ElevatorsClient.getMc().options.sneakKey.code || key == ElevatorsClient.getMc().options.jumpKey.code) && state){
             PlayerEntity playerEntity = PlayerEntity.class.cast(this);
-            if(playerEntity.onGround){ //playerEntity.onGround
+            if(playerEntity.onGround){
                 int playerX = (int)Math.floor(x);
-                int playerY = (int)Math.floor(y - Elevators.PLAYER_HEIGHT + 0.1);
+                int playerY = (int)Math.floor(y - Elevators.PLAYER_HEIGHT + 0.2);
                 int playerZ = (int)Math.floor(z);
                 int belowId = world.getBlockId(playerX, playerY - 1, playerZ);
                 if(Block.BLOCKS[belowId] instanceof ElevatorBlock elevatorBlock){
+                    BlockPos origin = new BlockPos(playerX, playerY - 1, playerZ);
                     BlockPos elevatorPos = null;
                     if(key == ElevatorsClient.getMc().options.sneakKey.code){
-                        System.out.println("Distance limit" + ElevatorsConfig.config.elevatorDistanceLimit);
-                        elevatorPos = findElevatorBelow(playerX, playerY, playerZ, ElevatorsConfig.config.elevatorDistanceLimit, elevatorBlock.color);
+                        elevatorPos = findElevatorBelow(origin, ElevatorsConfig.config.elevatorDistanceLimit, elevatorBlock.color);
                     }
                     else if(key == ElevatorsClient.getMc().options.jumpKey.code){
-                        elevatorPos = findElevatorAbove(playerX, playerY, playerZ, ElevatorsConfig.config.elevatorDistanceLimit, elevatorBlock.color);
+                        elevatorPos = findElevatorAbove(origin, ElevatorsConfig.config.elevatorDistanceLimit, elevatorBlock.color);
                     }
                     if(elevatorPos != null){
                         moveToElevator(new BlockPos(playerX, playerY, playerZ), elevatorPos);
@@ -63,61 +63,58 @@ public abstract class PlayerEntityMixin extends Entity {
         }
     }
 
-    public BlockPos findElevatorBelow(int x, int y, int z, int searchLimit, @Nullable Color elevatorColor){
+    public BlockPos findElevatorBelow(BlockPos origin, int searchLimit, @Nullable Color elevatorColor){
         BlockPos elevatorPos = null;
-        for(int i = y - 2; i > y - 2 - searchLimit; i--){
-            System.out.println(i - (y - 2));
+        for(int i = origin.y - 1; i > origin.y - 1 - searchLimit; i--){
+            System.out.println(i);
             if(world == null)break;
             if(i < world.getBottomY()){
                 break;
             }
-            int currentBlockId = world.getBlockId(x, i, z);
+            int currentBlockId = world.getBlockId(origin.x, i, origin.z);
             if(Block.BLOCKS[currentBlockId] instanceof ElevatorBlock){
                 boolean isSafe = true;
-                if(i + 1 <= world.getTopY() && world.shouldSuffocate(x, i + 1, z)) isSafe = false;;
-                if(i + 2 <= world.getTopY() && world.shouldSuffocate(x, i + 2, z)) isSafe = false;
+                if(i + 1 <= world.getTopY() && world.shouldSuffocate(origin.x, i + 1, origin.z)) isSafe = false;;
+                if(i + 2 <= world.getTopY() && world.shouldSuffocate(origin.x, i + 2, origin.z)) isSafe = false;
                 if(isSafe){
                     if(elevatorColor != null){
-                        BlockState elevatorBlockState = world.getBlockState(x, i, z);
+                        BlockState elevatorBlockState = world.getBlockState(origin.x, i, origin.z);
                         if(elevatorBlockState.getBlock() instanceof ElevatorBlock elevatorBlock && elevatorBlock.color == elevatorColor){
-                            elevatorPos = new BlockPos(x, i, z);
+                            elevatorPos = new BlockPos(origin.x, i, origin.z);
                             break;
                         }
                     }
                     else {
-                        elevatorPos = new BlockPos(x, i, z);
+                        elevatorPos = new BlockPos(origin.x, i, origin.z);
                         break;
                     }
                 }
-            }
-            else {
-                world.setBlock(x, y, z, Block.GLASS.id);
             }
         }
         return elevatorPos;
     }
 
-    public BlockPos findElevatorAbove(int x, int y, int z, int searchLimit, @Nullable Color elevatorColor){
+    public BlockPos findElevatorAbove(BlockPos origin, int searchLimit, @Nullable Color elevatorColor){
         BlockPos elevatorPos = null;
-        for(int i = y; i < y + searchLimit; i++){
+        for(int i = origin.y + 1; i < origin.y + searchLimit + 1; i++){
             System.out.println(i - y);
             if(i > world.getTopY()){
                 break;
             }
-            if(Block.BLOCKS[world.getBlockId(x, i, z)] instanceof ElevatorBlock){
+            if(Block.BLOCKS[world.getBlockId(origin.x, i, origin.z)] instanceof ElevatorBlock){
                 boolean isSafe = true;
-                if(i + 1 <= world.getTopY() && world.shouldSuffocate(x, i + 1, z)) isSafe = false;;
-                if(i + 2 <= world.getTopY() && world.shouldSuffocate(x, i + 2, z)) isSafe = false;
+                if(i + 1 <= world.getTopY() && world.shouldSuffocate(origin.x, i + 1, origin.z)) isSafe = false;;
+                if(i + 2 <= world.getTopY() && world.shouldSuffocate(origin.x, i + 2, origin.z)) isSafe = false;
                 if(isSafe){
                     if(elevatorColor != null){
-                        BlockState elevatorBlockState = world.getBlockState(x, i, z);
+                        BlockState elevatorBlockState = world.getBlockState(origin.x, i, origin.z);
                         if(elevatorBlockState.getBlock() instanceof ElevatorBlock elevatorBlock && elevatorBlock.color == elevatorColor){
-                            elevatorPos = new BlockPos(x, i, z);
+                            elevatorPos = new BlockPos(origin.x, i, origin.z);
                             break;
                         }
                     }
                     else {
-                        elevatorPos = new BlockPos(x, i, z);
+                        elevatorPos = new BlockPos(origin.x, i, origin.z);
                         break;
                     }
                 }
@@ -130,7 +127,7 @@ public abstract class PlayerEntityMixin extends Entity {
 
         PacketHelper.send(new TeleportToElevatorPacket(origin, elevatorPos));
         if(FabricLoader.getInstance().getEnvironmentType() == EnvType.CLIENT){
-            this.setVelocityClient(0,0,0);
+            this.setVelocityClient(0,-1,0);
         }
         System.out.println(elevatorPos.y);
     }
