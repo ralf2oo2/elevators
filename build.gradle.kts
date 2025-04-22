@@ -22,6 +22,10 @@ loom {
 //	accessWidenerPath = file("src/main/resources/examplemod.accesswidener")
 
 	runs {
+		register("secondClient") {
+			client()
+			programArgs("--username", "Player2", "--uuid", "cb7afd42-6488-4bb9-9dd3-151aa66d7049")
+		}
 		// If you want to make a testmod for your mod, right click on src, and create a new folder with the same name as source() below.
 		// Intellij should give suggestions for testmod folders.
 		register("testClient") {
@@ -84,6 +88,7 @@ dependencies {
 	modImplementation("net.glasslauncher.mods:ModMenu:${project.properties["modmenu_version"]}")
 	// https://github.com/Glass-Series/Always-More-Items
 	modImplementation("net.glasslauncher.mods:AlwaysMoreItems:${project.properties["alwaysmoreitems_version"]}")
+	modImplementation("maven.modrinth:betterf3-stationapi:0.4.0")
 }
 
 tasks.withType<ProcessResources> {

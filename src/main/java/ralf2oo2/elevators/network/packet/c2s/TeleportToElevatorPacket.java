@@ -7,25 +7,19 @@ import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.network.NetworkHandler;
 import net.minecraft.network.packet.Packet;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.World;
 import net.modificationstation.stationapi.api.block.BlockState;
 import net.modificationstation.stationapi.api.entity.player.PlayerHelper;
 import net.modificationstation.stationapi.api.network.packet.ManagedPacket;
 import net.modificationstation.stationapi.api.network.packet.PacketType;
-import net.modificationstation.stationapi.api.registry.PacketTypeRegistry;
-import net.modificationstation.stationapi.api.registry.Registry;
 import org.jetbrains.annotations.NotNull;
 import ralf2oo2.elevators.Elevators;
 import ralf2oo2.elevators.block.ElevatorBlock;
-import ralf2oo2.elevators.mixin.EntityAccessor;
 import ralf2oo2.elevators.server.ElevatorsServer;
 import ralf2oo2.elevators.state.property.Direction;
 
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
 
 public class TeleportToElevatorPacket extends Packet implements ManagedPacket<TeleportToElevatorPacket> {
     public static final PacketType<TeleportToElevatorPacket> TYPE = PacketType.builder(false, true, TeleportToElevatorPacket::new).build();
@@ -65,13 +59,13 @@ public class TeleportToElevatorPacket extends Packet implements ManagedPacket<Te
     @Override
     public void write(DataOutputStream stream) {
         try {
-            stream.writeInt(origin.x);
-            stream.writeInt(origin.y);
-            stream.writeInt(origin.z);
+            stream.writeInt(origin.getX());
+            stream.writeInt(origin.getY());
+            stream.writeInt(origin.getZ());
 
-            stream.writeInt(target.x);
-            stream.writeInt(target.y);
-            stream.writeInt(target.z);
+            stream.writeInt(target.getX());
+            stream.writeInt(target.getY());
+            stream.writeInt(target.getZ());
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
@@ -101,14 +95,13 @@ public class TeleportToElevatorPacket extends Packet implements ManagedPacket<Te
             }
             if(FabricLoader.getInstance().getEnvironmentType() == EnvType.SERVER){
                 if(playerEntity instanceof ServerPlayerEntity serverPlayerEntity){
-                    serverPlayerEntity.networkHandler.teleport(target.x + 0.5d, target.y + 1, target.z + 0.5D, playerYaw, playerEntity.pitch);
-                    ElevatorsServer.playSoundForPlayersInRange(serverPlayerEntity.world, target.x, target.y + 1, target.z, "elevators:block.warp", 1.0F, 1.0F, 10);
-                    System.out.println("server");
+                    serverPlayerEntity.networkHandler.teleport(target.getX() + 0.5d, target.getY() + 1, target.getZ() + 0.5D, playerYaw, playerEntity.pitch);
+                    ElevatorsServer.playSoundForPlayersInRange(serverPlayerEntity.world, target.getX(), target.getY() + 1, target.getZ(), "elevators:block.warp", 1.0F, 1.0F, 10);
                 }
             }
             else {
-                playerEntity.setPositionAndAngles(target.x + 0.5d, target.y + Elevators.PLAYER_HEIGHT + 1, target.z + 0.5D, playerYaw, playerEntity.pitch);
-                playerEntity.world.playSound(target.x, target.y + 1, target.z, "elevators:block.warp", 1.0F, 1.0F);
+                playerEntity.setPositionAndAngles(target.getX() + 0.5d, target.getY() + Elevators.PLAYER_HEIGHT + 1, target.getZ() + 0.5D, playerYaw, playerEntity.pitch);
+                playerEntity.world.playSound(target.getX(), target.getY() + 1, target.getZ(), "elevators:block.warp", 1.0F, 1.0F);
             }
         }
     }
