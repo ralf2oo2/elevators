@@ -21,7 +21,8 @@
     "stationapi:event_bus": [
       "ralf2oo2.elevators.Elevators",
       "ralf2oo2.elevators.events.init.BlockRegistry",
-      "ralf2oo2.elevators.events.init.BlockEntityRegistry"
+      "ralf2oo2.elevators.events.init.BlockEntityRegistry",
+      "ralf2oo2.elevators.events.init.PacketRegistry"
     ],
     "stationapi:event_bus_client": [
       "ralf2oo2.elevators.events.init.BlockEntityRendererRegistry",

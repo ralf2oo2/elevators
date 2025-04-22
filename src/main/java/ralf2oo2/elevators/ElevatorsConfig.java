@@ -11,7 +11,8 @@ public class ElevatorsConfig {
                 name = "Elevator Distance Limit",
                 description = "The max amount of blocks the elevator will search for another elevator block",
                 maxLength = 1000,
-                minLength = 1
+                minLength = 1,
+                multiplayerSynced = true
         )
         public Integer elevatorDistanceLimit = 20;
     }

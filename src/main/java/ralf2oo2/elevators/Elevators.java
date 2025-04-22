@@ -15,4 +15,6 @@ public class Elevators {
     public static final Namespace NAMESPACE = Namespace.resolve();
 
     public static final Logger LOGGER = NAMESPACE.getLogger();
+
+    public static float PLAYER_HEIGHT = 1.62F;
 }
