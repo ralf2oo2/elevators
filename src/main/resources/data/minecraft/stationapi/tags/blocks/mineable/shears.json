@@ -1,0 +1,20 @@
+{
+  "values": [
+    "elevators:black_elevator_block",
+    "elevators:red_elevator_block",
+    "elevators:green_elevator_block",
+    "elevators:brown_elevator_block",
+    "elevators:blue_elevator_block",
+    "elevators:purple_elevator_block",
+    "elevators:cyan_elevator_block",
+    "elevators:light_gray_elevator_block",
+    "elevators:gray_elevator_block",
+    "elevators:pink_elevator_block",
+    "elevators:lime_elevator_block",
+    "elevators:yellow_elevator_block",
+    "elevators:light_blue_elevator_block",
+    "elevators:magenta_elevator_block",
+    "elevators:orange_elevator_block",
+    "elevators:white_elevator_block"
+  ]
+}

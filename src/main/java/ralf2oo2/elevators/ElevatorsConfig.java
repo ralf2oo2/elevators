@@ -15,5 +15,11 @@ public class ElevatorsConfig {
                 multiplayerSynced = true
         )
         public Integer elevatorDistanceLimit = 20;
+
+        @ConfigEntry(
+                name = "Show Arrow",
+                description = "Show an arrow that points at the direction of a directional elevator when sneaking"
+        )
+        public Boolean renderArrow = true;
     }
 }

@@ -18,6 +18,7 @@ import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
+import ralf2oo2.elevators.ElevatorsConfig;
 import ralf2oo2.elevators.block.ElevatorBlock;
 import ralf2oo2.elevators.events.init.TextureRegistry;
 import ralf2oo2.elevators.state.property.Direction;
@@ -28,6 +29,7 @@ public class GameRendererMixin {
     
     @Inject(method = "renderFrame", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/render/WorldRenderer;renderBlockOutline(Lnet/minecraft/entity/player/PlayerEntity;Lnet/minecraft/util/hit/HitResult;ILnet/minecraft/item/ItemStack;F)V"))
     void elevators_renderFrame(float time, long par2, CallbackInfo ci){
+        if(!ElevatorsConfig.config.renderArrow) return;
         PlayerEntity player = (PlayerEntity)client.camera;
 
         if (client.crosshairTarget.type != HitResultType.BLOCK || !player.isSneaking()) return;
