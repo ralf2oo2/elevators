@@ -1,28 +1,26 @@
-# Fabric Example Mod with StationAPI and BIN Mappings for beta 1.7.3 server + client
+# Elevators
 
-## Setup
+Elevators is a b1.7.3 [StationAPI](https://github.com/ModificationStation/StationAPI) mod that adds elevator blocks that are highly inspired by the mod OpenBlocks [OpenBlocks](https://www.curseforge.com/minecraft/mc-mods/openblocks)
 
-Run the `_setup/setupMod` task and give it the inputs it needs. **This is a required step.**
+## Features
 
-[See the StationAPI wiki.](https://github.com/ModificationStation/StationAPI/wiki)
+- Elevator block that allows you to travel to other elevator blocks above or below it
+- Directional elevator block that puts the players horizontal direction in the direction it is placed
+- Elevator dying by right clicking placed elevators with dye
+- Configurable distance limit via GCAPI
 
-## Common Issues
+## Recipes
+[![java-DGYXld2-Syq.png](https://i.postimg.cc/bND3ScY1/java-DGYXld2-Syq.png)](https://postimg.cc/RNmc2YH0)
+[![recipe2.png](https://i.postimg.cc/zGT7pCgB/recipe2.png)](https://postimg.cc/G4hvmszw)
 
-**My project isn't building after updating babric loom/stationapi!**  
-Run a gradle task with `--refresh-dependencies` as an argument, and this should be fixed. If not, try deleting your project's `.gradle` folder, and try again.
+## Requirements
+[StationAPI](https://github.com/ModificationStation/StationAPI) <br/>
+[GCAPI](https://modrinth.com/mod/glass-config-api) <br/>
+[ModMenu](https://github.com/calmilamsy/ModMenu)
 
-**I get "Invalid source release: 17" as an error!**  
-Use Java 17. Open up `File > Project Structure` and change your SDK to Java 17.  
-If you still get the issue, you may need to go into `File > Settings > Build, Execution, Deployment > Build Tools > Gradle` and change the Java that Gradle uses too.
+## Screenshots
+[![java-QBp-A72-Rjy7.png](https://i.postimg.cc/59kstNJx/java-QBp-A72-Rjy7.png)](https://postimg.cc/LhLtCSh7)
+[![ezgif-2c79de25163735.gif](https://i.postimg.cc/90fgnDjk/ezgif-2c79de25163735.gif)](https://postimg.cc/tZLz1CJd)
 
-**How do I stop server.properties from constantly changing?**  
-Remove the last line in the `gitignore` file.
-
-**My client hangs on a blank screen on trying to my test server!**  
-Open your `server.properties` and set `online-mode` to `false`.
-
-[Here for more issues.](https://github.com/calmilamsy/BIN-fabric-example-mod#common-issues)
-
-## License
-
-This template is available under the CC0 license. Feel free to learn from it and incorporate it in your own projects.
+## Extra credits
+The sound of the elevator is by [LloydEvans09](https://freesound.org/people/LloydEvans09/sounds/185849/) on freesound. License: Attribution 4.0
