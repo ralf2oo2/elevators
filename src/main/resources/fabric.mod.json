@@ -3,17 +3,16 @@
   "id": "elevators",
   "version": "${version}",
 
-  "name": "Example Mod",
-  "description": "This is an example description! Tell everyone what your mod is about!",
+  "name": "Elevators",
+  "description": "Adds elevator blocks that are heavily inspired by OpenBlocks",
   "authors": [
-    "Me!"
+    "Ralf2oo2"
   ],
   "contact": {
-    "homepage": "https://glass-launcher.net/",
-    "sources": "https://github.com/calmilamsy/stationapi-example-mod"
+    "sources": "https://github.com/ralf2oo2/elevators"
   },
 
-  "license": "CC0-1.0",
+  "license": "MIT",
   "icon": "assets/elevators/icon.png",
 
   "environment": "*",
