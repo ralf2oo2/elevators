@@ -61,13 +61,18 @@ public abstract class ClientPlayerEntityMixin extends Entity {
         int start = origin.getY() + (searchUpward ? 1 : -1);
         int end = origin.getY() + (searchUpward ? searchLimit + 1 : -searchLimit - 1);
         int step = searchUpward ? 1 : -1;
+
+        int blockCount = 0;
+
         for(int y = start; searchUpward ? y < end : y > end; y += step){
             if (y < world.getBottomY() || y > world.getTopY()) break;
-
             int blockId = world.getBlockId(origin.getX(), y, origin.getZ());
+            if(blockCount > ElevatorsConfig.config.blockPassthroughLimit) break;
+
+            if(shouldCountTowardsLimit(origin.getX(), y, origin.getZ(), ElevatorsConfig.config.ignoreBlocksThatDontSuffocatePlayerCheckingLimit)) blockCount++;
             if(Block.BLOCKS[blockId] instanceof ElevatorBlock){
-                boolean isSafe = !world.shouldSuffocate(origin.getX(), y + 1, origin.getZ())
-                        && !world.shouldSuffocate(origin.getX(), y + 2, origin.getZ());
+                boolean isSafe = !shouldCountTowardsLimit(origin.getX(), y + 1, origin.getZ(), ElevatorsConfig.config.ignoreBlocksThatDontSuffocatePlayerCheckingSafety)
+                        && !shouldCountTowardsLimit(origin.getX(), y + 2, origin.getZ(), ElevatorsConfig.config.ignoreBlocksThatDontSuffocatePlayerCheckingSafety);
 
                 if(isSafe){
                     if(color != null){
@@ -90,5 +95,14 @@ public abstract class ClientPlayerEntityMixin extends Entity {
         if(FabricLoader.getInstance().getEnvironmentType() == EnvType.CLIENT){
             this.setVelocityClient(0,-1,0);
         }
+    }
+
+    private boolean shouldCountTowardsLimit(int x, int y, int z, boolean allowNonSuffocatingBlocks){
+        int blockId = world.getBlockId(x, y, z);
+        if(blockId == 0) return false;
+        Block block = Block.BLOCKS[blockId];
+        if(block instanceof ElevatorBlock) return false;
+        if(!world.shouldSuffocate(x, y, z) && allowNonSuffocatingBlocks) return false;
+        return true;
     }
 }
