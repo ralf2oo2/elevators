@@ -10,10 +10,12 @@ import net.minecraft.util.math.BlockPos;
 import net.modificationstation.stationapi.api.block.BlockState;
 import net.modificationstation.stationapi.api.entity.player.PlayerHelper;
 import net.modificationstation.stationapi.api.network.packet.ManagedPacket;
+import net.modificationstation.stationapi.api.network.packet.PacketHelper;
 import net.modificationstation.stationapi.api.network.packet.PacketType;
 import org.jetbrains.annotations.NotNull;
 import ralf2oo2.elevators.Elevators;
 import ralf2oo2.elevators.block.ElevatorBlock;
+import ralf2oo2.elevators.network.packet.s2c.TeleportConfirmationPacket;
 import ralf2oo2.elevators.server.ElevatorsServer;
 import ralf2oo2.elevators.state.property.Direction;
 
@@ -96,6 +98,7 @@ public class TeleportToElevatorPacket extends Packet implements ManagedPacket<Te
             if(FabricLoader.getInstance().getEnvironmentType() == EnvType.SERVER){
                 if(playerEntity instanceof ServerPlayerEntity serverPlayerEntity){
                     serverPlayerEntity.networkHandler.teleport(target.getX() + 0.5d, target.getY() + 1, target.getZ() + 0.5D, playerYaw, playerEntity.pitch);
+                    PacketHelper.sendTo(playerEntity, new TeleportConfirmationPacket());
                     ElevatorsServer.playSoundForPlayersInRange(serverPlayerEntity.world, target.getX(), target.getY() + 1, target.getZ(), "elevators:block.warp", 1.0F, 1.0F, 10);
                 }
             }

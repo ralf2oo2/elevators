@@ -11,7 +11,8 @@
     "WorldRendererAccessor",
     "GameRendererMixin",
     "BlockRenderManagerAccessor",
-    "ClientPlayerEntityMixin"
+    "ClientPlayerEntityMixin",
+    "PlayerEntityMixin"
   ],
   "injectors": {
     "defaultRequire": 1

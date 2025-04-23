@@ -8,11 +8,13 @@ import net.modificationstation.stationapi.api.util.Identifier;
 import ralf2oo2.elevators.Elevators;
 import ralf2oo2.elevators.network.packet.c2s.TeleportToElevatorPacket;
 import ralf2oo2.elevators.network.packet.s2c.PlaySoundPacket;
+import ralf2oo2.elevators.network.packet.s2c.TeleportConfirmationPacket;
 
 public class PacketRegistry {
     @EventListener
     public void registerPackets(PacketRegisterEvent event){
         Registry.register(PacketTypeRegistry.INSTANCE, Identifier.of(Elevators.NAMESPACE, "teleport_to_elevator"), TeleportToElevatorPacket.TYPE);
         Registry.register(PacketTypeRegistry.INSTANCE, Identifier.of(Elevators.NAMESPACE, "play_sound"), PlaySoundPacket.TYPE);
+        Registry.register(PacketTypeRegistry.INSTANCE, Identifier.of(Elevators.NAMESPACE, "confirm_teleport"), TeleportConfirmationPacket.TYPE);
     }
 }

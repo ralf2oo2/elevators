@@ -30,8 +30,9 @@ public abstract class ClientPlayerEntityMixin extends Entity {
         super(world);
     }
 
-    @Inject(method = "updateKey", at = @At("HEAD"))
+    @Inject(method = "updateKey", at = @At("HEAD"), cancellable = true)
     void elevator_updateKey(int key, boolean state, CallbackInfo ci){
+        boolean cancelInput = false;
         if(world == null) return;
         if((key == ElevatorsClient.getMc().options.sneakKey.code || key == ElevatorsClient.getMc().options.jumpKey.code) && state){
             PlayerEntity playerEntity = PlayerEntity.class.cast(this);
@@ -51,9 +52,15 @@ public abstract class ClientPlayerEntityMixin extends Entity {
                     }
                     if(elevatorPos != null){
                         moveToElevator(new BlockPos(playerX, playerY, playerZ), elevatorPos);
+                        if(key == ElevatorsClient.getMc().options.jumpKey.code){
+                            cancelInput = true;
+                        }
                     }
                 }
             }
+        }
+        if(cancelInput){
+            ci.cancel();
         }
     }
 
@@ -91,9 +98,14 @@ public abstract class ClientPlayerEntityMixin extends Entity {
     }
 
     public void moveToElevator(BlockPos origin, BlockPos elevatorPos){
-        PacketHelper.send(new TeleportToElevatorPacket(origin, elevatorPos));
-        if(FabricLoader.getInstance().getEnvironmentType() == EnvType.CLIENT){
-            this.setVelocityClient(0,-1,0);
+        if(world.isRemote){
+            if(ElevatorsClient.multiplayerDelayTicks == 0){
+                PacketHelper.send(new TeleportToElevatorPacket(origin, elevatorPos));
+                ElevatorsClient.multiplayerDelayTicks = 20;
+            }
+        }
+        else {
+            PacketHelper.send(new TeleportToElevatorPacket(origin, elevatorPos));
         }
     }
 
