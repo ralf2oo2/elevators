@@ -78,6 +78,7 @@ public class TeleportToElevatorPacket extends Packet implements ManagedPacket<Te
         return 6 * Integer.BYTES;
     }
 
+    // TODO: add some sort of checking here to avoid invalid teleports
     @Override
     public void apply(NetworkHandler networkHandler) {
         PlayerEntity playerEntity = PlayerHelper.getPlayerFromPacketHandler(networkHandler);
