@@ -1,6 +1,6 @@
 # Elevators
 
-Elevators is a b1.7.3 [StationAPI](https://github.com/ModificationStation/StationAPI) mod that adds elevator blocks that are highly inspired by the mod OpenBlocks [OpenBlocks](https://www.curseforge.com/minecraft/mc-mods/openblocks)
+Elevators is a b1.7.3 [StationAPI](https://github.com/ModificationStation/StationAPI) mod that adds elevator blocks that are highly inspired by the mod [OpenBlocks](https://www.curseforge.com/minecraft/mc-mods/openblocks)
 
 ## Features
 
