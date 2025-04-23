@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    {
+      "item": "elevators:light_gray_elevator_block",
+      "damage":0
+    },
+    {
+      "item": "minecraft:arrow"
+    }
+  ],
+  "result": {
+    "item": "elevators:light_gray_elevator_block",
+    "count": 1,
+    "damage": 1
+  }
+}

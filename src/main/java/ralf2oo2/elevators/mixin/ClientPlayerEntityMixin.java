@@ -38,7 +38,7 @@ public abstract class ClientPlayerEntityMixin extends Entity {
             PlayerEntity playerEntity = PlayerEntity.class.cast(this);
             if(playerEntity.onGround){
                 int playerX = (int)Math.floor(x);
-                int playerY = (int)Math.floor(y - Elevators.PLAYER_HEIGHT + 0.2);
+                int playerY = (int)Math.floor(y - Elevators.PLAYER_HEIGHT + 0.5);
                 int playerZ = (int)Math.floor(z);
                 int belowId = world.getBlockId(playerX, playerY - 1, playerZ);
                 if(Block.BLOCKS[belowId] instanceof ElevatorBlock elevatorBlock){
@@ -76,10 +76,10 @@ public abstract class ClientPlayerEntityMixin extends Entity {
             int blockId = world.getBlockId(origin.getX(), y, origin.getZ());
             if(blockCount > ElevatorsConfig.config.blockPassthroughLimit) break;
 
-            if(shouldCountTowardsLimit(origin.getX(), y, origin.getZ(), ElevatorsConfig.config.ignoreBlocksThatDontSuffocatePlayerCheckingLimit)) blockCount++;
+            if(shouldCountTowardsLimit(origin.getX(), y, origin.getZ(), ElevatorsConfig.config.ignoreBlocksThatDontSuffocatePlayerCheckingLimit, true)) blockCount++;
             if(Block.BLOCKS[blockId] instanceof ElevatorBlock){
-                boolean isSafe = !shouldCountTowardsLimit(origin.getX(), y + 1, origin.getZ(), ElevatorsConfig.config.ignoreBlocksThatDontSuffocatePlayerCheckingSafety)
-                        && !shouldCountTowardsLimit(origin.getX(), y + 2, origin.getZ(), ElevatorsConfig.config.ignoreBlocksThatDontSuffocatePlayerCheckingSafety);
+                boolean isSafe = !shouldCountTowardsLimit(origin.getX(), y + 1, origin.getZ(), ElevatorsConfig.config.ignoreBlocksThatDontSuffocatePlayerCheckingSafety, false)
+                        && !shouldCountTowardsLimit(origin.getX(), y + 2, origin.getZ(), ElevatorsConfig.config.ignoreBlocksThatDontSuffocatePlayerCheckingSafety, false);
 
                 if(isSafe){
                     if(color != null){
@@ -109,11 +109,11 @@ public abstract class ClientPlayerEntityMixin extends Entity {
         }
     }
 
-    private boolean shouldCountTowardsLimit(int x, int y, int z, boolean allowNonSuffocatingBlocks){
+    private boolean shouldCountTowardsLimit(int x, int y, int z, boolean allowNonSuffocatingBlocks, boolean ignoreElevator){
         int blockId = world.getBlockId(x, y, z);
         if(blockId == 0) return false;
         Block block = Block.BLOCKS[blockId];
-        if(block instanceof ElevatorBlock) return false;
+        if(block instanceof ElevatorBlock && ignoreElevator) return false;
         if(!world.shouldSuffocate(x, y, z) && allowNonSuffocatingBlocks) return false;
         return true;
     }

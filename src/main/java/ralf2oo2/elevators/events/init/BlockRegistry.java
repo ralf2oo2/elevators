@@ -20,6 +20,8 @@ public class BlockRegistry {
         for(int i = 0; i < colors.length; i++){
             elevatorBlocks[i] = new ElevatorBlock(Identifier.of(Elevators.NAMESPACE, colors[i].asString() + "_elevator_block"), Material.WOOL, colors[i]).setTranslationKey(Elevators.NAMESPACE, colors[i].asString() + "_elevator_block").setSoundGroup(Block.WOOL_SOUND_GROUP).setHardness(0.8F);
         }
-        hiddenElevatorBlock = new HiddenElevatorBlock(Identifier.of(Elevators.NAMESPACE, "hidden_elevator_block"), Material.WOOL, null).setTranslationKey(Elevators.NAMESPACE, "hidden_elevator_block");
+
+        // This might get added in a later update but for now it's not really worth adding
+        //hiddenElevatorBlock = new HiddenElevatorBlock(Identifier.of(Elevators.NAMESPACE, "hidden_elevator_block"), Material.WOOL, null).setTranslationKey(Elevators.NAMESPACE, "hidden_elevator_block");
     }
 }
