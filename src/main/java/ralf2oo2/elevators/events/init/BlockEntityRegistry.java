@@ -9,6 +9,6 @@ import ralf2oo2.elevators.block.entity.HiddenElevatorBlockEntity;
 public class BlockEntityRegistry {
     @EventListener
     public void registerBlockEntities(BlockEntityRegisterEvent event){
-        event.register(HiddenElevatorBlockEntity.class, Identifier.of(Elevators.NAMESPACE, "hidden_elevator_blockentity").toString());
+        event.register(Identifier.of(Elevators.NAMESPACE, "hidden_elevator_blockentity"), HiddenElevatorBlockEntity.class);
     }
 }
