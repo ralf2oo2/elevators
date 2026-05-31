@@ -31,3 +31,4 @@ tile.@.orange_elevator_block0.name=Orange Elevator
 tile.@.orange_elevator_block1.name=Directional Orange Elevator
 tile.@.white_elevator_block0.name=White Elevator
 tile.@.white_elevator_block1.name=Directional White Elevator
+tile.@.hidden_elevator_block0.name=Hidden Elevator

@@ -22,6 +22,6 @@ public class BlockRegistry {
         }
 
         // This might get added in a later update but for now it's not really worth adding
-        //hiddenElevatorBlock = new HiddenElevatorBlock(Identifier.of(Elevators.NAMESPACE, "hidden_elevator_block"), Material.WOOL, null).setTranslationKey(Elevators.NAMESPACE, "hidden_elevator_block");
+//        hiddenElevatorBlock = new HiddenElevatorBlock(Identifier.of(Elevators.NAMESPACE, "hidden_elevator_block"), Material.WOOL, null).setTranslationKey(Elevators.NAMESPACE, "hidden_elevator_block");
     }
 }
