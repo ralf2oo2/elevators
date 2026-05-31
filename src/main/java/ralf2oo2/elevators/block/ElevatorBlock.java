@@ -68,7 +68,7 @@ public class ElevatorBlock extends TemplateBlock {
                     elevatorState = elevatorState.with(ElevatorBlock.DIRECTION_ENUM_PROPERTY, Direction.EAST);
                     break;
             }
-            world.setBlockStateWithMetadataWithNotify(x, y, z, elevatorState, player.getHand().getDamage());
+            world.setBlockState(x, y, z, elevatorState, player.getHand().getDamage());
         }
     }
 
@@ -81,7 +81,7 @@ public class ElevatorBlock extends TemplateBlock {
         int blockMeta = world.getBlockMeta(x, y, z);
 
         if(color != dyeColor && colors.containsKey(dyeColor)){
-            world.setBlockStateWithMetadataWithNotify(x, y, z, colors.get(dyeColor).getDefaultState().with(ElevatorBlock.DIRECTION_ENUM_PROPERTY, direction), blockMeta);
+            world.setBlockState(x, y, z, colors.get(dyeColor).getDefaultState().with(ElevatorBlock.DIRECTION_ENUM_PROPERTY, direction), blockMeta);
             player.getHand().count--;
             return true;
         }
